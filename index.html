@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calcule seu Índice de Massa Corporal de forma rápida, simples e visual.">
+  <title>Calculadora de IMC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <main class="page-shell">
+    <header class="hero reveal">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> Saúde em perspectiva</span>
+      <h1>Calculadora de <span>IMC</span></h1>
+      <p>O Índice de Massa Corporal relaciona peso e altura para oferecer uma referência simples sobre sua faixa de peso.</p>
+    </header>
+
+    <section class="workspace reveal" aria-label="Calculadora de IMC">
+      <article class="form-panel">
+        <div class="section-heading">
+          <div>
+            <span class="step-label">PASSO 01</span>
+            <h2>Conte um pouco sobre você</h2>
+          </div>
+          <div class="heading-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
+          </div>
+        </div>
+
+        <form id="bmi-form" novalidate>
+          <div class="field full-field">
+            <label for="name">Seu nome</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Como podemos chamar você?" maxlength="60">
+            </div>
+            <small class="error" id="name-error"></small>
+          </div>
+
+          <div class="fields-grid">
+            <div class="field">
+              <label for="age">Idade</label>
+              <div class="input-wrap has-unit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v3M16 2v3M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg>
+                <input id="age" name="age" type="number" inputmode="numeric" placeholder="28" min="1" max="120">
+                <span>anos</span>
+              </div>
+              <small class="error" id="age-error"></small>
+            </div>
+
+            <div class="field">
+              <label for="weight">Peso</label>
+              <div class="input-wrap has-unit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21h14l2-14H3l2 14ZM9 7a3 3 0 0 1 6 0M12 7v3"/></svg>
+                <input id="weight" name="weight" type="text" inputmode="decimal" placeholder="70,5">
+                <span>kg</span>
+              </div>
+              <small class="error" id="weight-error"></small>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="height">Altura</label>
+              <span class="hint">Metros ou centímetros</span>
+            </div>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v18H7V3ZM7 7h4M7 11h3M7 15h4M7 19h3"/></svg>
+              <input id="height" name="height" type="text" inputmode="decimal" placeholder="Ex.: 1,75 ou 175">
+            </div>
+            <small class="error" id="height-error"></small>
+          </div>
+
+          <div class="form-alert" id="form-alert" role="alert" aria-live="polite"></div>
+
+          <div class="actions">
+            <button class="primary-btn" type="submit">
+              Calcular meu IMC
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            <button class="secondary-btn" id="clear-btn" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v5M14 11v5"/></svg>
+              Limpar
+            </button>
+          </div>
+        </form>
+      </article>
+
+      <aside class="insight-panel" id="insight-panel">
+        <div class="idle-state" id="idle-state">
+          <div class="orbital-graphic" aria-hidden="true">
+            <span class="orbit orbit-one"></span>
+            <span class="orbit orbit-two"></span>
+            <span class="heart-icon">
+              <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+            </span>
+          </div>
+          <span class="step-label">PASSO 02</span>
+          <h2>Seu resultado aparece aqui</h2>
+          <p>Preencha os dados ao lado para descobrir sua faixa de IMC.</p>
+          <div class="privacy-note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5V10Z"/></svg>
+            Seus dados não são armazenados
+          </div>
+        </div>
+
+        <div class="result-card" id="result-card" aria-live="polite" hidden>
+          <div class="result-topline">
+            <span class="result-label">SEU RESULTADO</span>
+            <span class="status-chip" id="status-chip"><span></span><span id="chip-text"></span></span>
+          </div>
+          <p class="result-greeting" id="result-greeting"></p>
+          <div class="bmi-value"><strong id="bmi-value">0,00</strong><span>IMC</span></div>
+          <h2 id="result-classification"></h2>
+          <p class="result-message" id="result-message"></p>
+
+          <div class="gauge-block">
+            <div class="gauge-labels"><span>Baixo</span><span>Normal</span><span>Sobrepeso</span><span>Obesidade</span></div>
+            <div class="gauge" aria-label="Indicador visual da faixa de IMC">
+              <div class="gauge-segment low"></div>
+              <div class="gauge-segment normal"></div>
+              <div class="gauge-segment overweight"></div>
+              <div class="gauge-segment obese"></div>
+              <span class="gauge-marker" id="gauge-marker"></span>
+            </div>
+            <div class="gauge-numbers"><span>16</span><span>18,5</span><span>25</span><span>30</span><span>40+</span></div>
+          </div>
+
+          <div class="result-meta">
+            <span><svg viewBox="0 0 24 24"><path d="M8 2v3M16 2v3M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg><b id="meta-age"></b> anos</span>
+            <span><svg viewBox="0 0 24 24"><path d="M5 21h14l2-14H3l2 14ZM9 7a3 3 0 0 1 6 0"/></svg><b id="meta-weight"></b> kg</span>
+            <span><svg viewBox="0 0 24 24"><path d="M7 3h10v18H7V3Z"/></svg><b id="meta-height"></b> m</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="reference-card reveal" aria-labelledby="reference-title">
+      <div class="reference-copy">
+        <span class="eyebrow compact"><span class="eyebrow-dot"></span> Referência</span>
+        <h2 id="reference-title">Entenda as faixas do IMC</h2>
+        <p>Use a tabela como uma orientação rápida. Cada pessoa é única e outros fatores também importam.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Faixa de IMC</th><th>Classificação</th><th>Indicador</th></tr></thead>
+          <tbody>
+            <tr><td>Menor que 18,5</td><td>Abaixo do peso</td><td><span class="table-dot low"></span></td></tr>
+            <tr><td>18,5 a 24,9</td><td>Peso normal</td><td><span class="table-dot normal"></span></td></tr>
+            <tr><td>25,0 a 29,9</td><td>Sobrepeso</td><td><span class="table-dot overweight"></span></td></tr>
+            <tr><td>30,0 a 34,9</td><td>Obesidade grau I</td><td><span class="table-dot obesity-one"></span></td></tr>
+            <tr><td>35,0 a 39,9</td><td>Obesidade grau II</td><td><span class="table-dot obesity-two"></span></td></tr>
+            <tr><td>40,0 ou mais</td><td>Obesidade grau III</td><td><span class="table-dot obesity-three"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="medical-note reveal">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 10v6M12 7h.01"/></svg>
+      <p><strong>Um lembrete importante</strong> Este resultado é apenas informativo e não substitui uma avaliação com médico ou nutricionista.</p>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Feito para ajudar você a cuidar de si <span>♥</span></p>
+    <small>© <span id="year"></span> Calculadora de IMC</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
