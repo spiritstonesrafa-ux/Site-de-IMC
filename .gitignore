@@ -1,0 +1,8 @@
+# Arquivos gerados pelo comando `npm run build`
+dist/
+
+# Arquivos locais comuns do sistema operacional e de editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

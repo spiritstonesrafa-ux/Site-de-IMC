@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Formas decorativas: aria-hidden evita que leitores de tela anunciem elementos sem conteúdo. -->
   <div class="ambient ambient-one" aria-hidden="true"></div>
   <div class="ambient ambient-two" aria-hidden="true"></div>
 
@@ -21,6 +22,7 @@
       <p>O Índice de Massa Corporal relaciona peso e altura para oferecer uma referência simples sobre sua faixa de peso.</p>
     </header>
 
+    <!-- Área principal: formulário à esquerda e painel de resultado à direita. -->
     <section class="workspace reveal" aria-label="Calculadora de IMC">
       <article class="form-panel">
         <div class="section-heading">
@@ -92,6 +94,7 @@
         </form>
       </article>
 
+      <!-- O JavaScript alterna entre o estado inicial e o cartão com o resultado. -->
       <aside class="insight-panel" id="insight-panel">
         <div class="idle-state" id="idle-state">
           <div class="orbital-graphic" aria-hidden="true">
@@ -141,6 +144,7 @@
       </aside>
     </section>
 
+    <!-- Tabela de apoio para o usuário interpretar o número calculado. -->
     <section class="reference-card reveal" aria-labelledby="reference-title">
       <div class="reference-copy">
         <span class="eyebrow compact"><span class="eyebrow-dot"></span> Referência</span>
@@ -173,6 +177,7 @@
     <small>© <span id="year"></span> Calculadora de IMC</small>
   </footer>
 
+  <!-- Carregado no fim para que todos os elementos acima já existam quando o JS iniciar. -->
   <script src="script.js"></script>
 </body>
 </html>

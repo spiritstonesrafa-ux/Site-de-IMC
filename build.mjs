@@ -1,9 +1,11 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 
+// Recria a pasta de saída para não manter arquivos antigos entre builds.
 await rm("dist", { recursive: true, force: true });
 await mkdir("dist/server", { recursive: true });
 await mkdir("dist/.openai", { recursive: true });
 
+// Os arquivos independentes são lidos em paralelo para agilizar o processo.
 const [html, css, javascript, hosting] = await Promise.all([
   readFile("index.html", "utf8"),
   readFile("style.css", "utf8"),
@@ -11,6 +13,7 @@ const [html, css, javascript, hosting] = await Promise.all([
   readFile(".openai/hosting.json", "utf8")
 ]);
 
+// O conteúdo vira um mapa de rotas que será incorporado ao servidor gerado abaixo.
 const assets = JSON.stringify({
   "/": { body: html, type: "text/html; charset=utf-8" },
   "/index.html": { body: html, type: "text/html; charset=utf-8" },
@@ -18,6 +21,7 @@ const assets = JSON.stringify({
   "/script.js": { body: javascript, type: "text/javascript; charset=utf-8" }
 });
 
+// O template cria um servidor mínimo: entrega os arquivos conhecidos e responde 404 aos demais.
 const worker = `const assets = ${assets};
 
 export default {

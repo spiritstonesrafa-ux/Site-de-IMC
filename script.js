@@ -1,5 +1,6 @@
 "use strict";
 
+// Guardamos referências aos elementos usados várias vezes para evitar buscas repetidas no HTML.
 const form = document.getElementById("bmi-form");
 const clearButton = document.getElementById("clear-btn");
 const idleState = document.getElementById("idle-state");
@@ -25,6 +26,7 @@ const resultElements = {
   height: document.getElementById("meta-height")
 };
 
+// Cada faixa reúne o limite do IMC e os textos/cores mostrados no resultado.
 const ranges = [
   { max: 18.5, label: "Abaixo do peso", short: "Atenção", color: "#4f91df", soft: "rgba(79,145,223,.13)", message: "Seu resultado está abaixo da faixa de referência. Uma orientação profissional pode ajudar a cuidar da sua nutrição." },
   { max: 25, label: "Peso normal", short: "Faixa saudável", color: "#2eaa78", soft: "rgba(46,170,120,.13)", message: "Você está na faixa considerada saudável. Continue cultivando hábitos que fazem bem para você!" },
@@ -35,6 +37,7 @@ const ranges = [
 ];
 
 function parseNumber(value) {
+  // Aceita tanto vírgula quanto ponto como separador decimal.
   return Number(String(value).trim().replace(",", "."));
 }
 
@@ -71,6 +74,7 @@ function validate() {
   if (!fields.height.value.trim()) { setError("height", "Informe sua altura."); valid = false; }
   else if (!Number.isFinite(rawHeight) || rawHeight <= 0) { setError("height", "Informe uma altura válida, maior que zero."); valid = false; }
 
+  // Valores acima de 3 são interpretados como centímetros: 175 se torna 1,75 m.
   const height = rawHeight > 3 ? rawHeight / 100 : rawHeight;
   if (Number.isFinite(height) && (height < 0.5 || height > 2.8)) {
     setError("height", "Use metros (ex.: 1,75) ou centímetros (ex.: 175).");
@@ -80,6 +84,7 @@ function validate() {
   if (!valid) {
     formAlert.textContent = "Revise os campos destacados para calcular seu IMC.";
     formAlert.classList.add("show");
+    // Leva o foco ao primeiro erro para facilitar a correção e melhorar a acessibilidade.
     const firstInvalid = form.querySelector("[aria-invalid='true']");
     if (firstInvalid) firstInvalid.focus();
     return null;
@@ -89,15 +94,19 @@ function validate() {
 }
 
 function markerPosition(bmi) {
+  // Converte a escala de IMC (16 a 42) em porcentagem e mantém o ponto dentro da barra.
   const min = 16;
   const max = 42;
   return Math.min(98, Math.max(2, ((bmi - min) / (max - min)) * 100));
 }
 
 function showResult(data) {
+  // Fórmula do IMC: peso em quilogramas dividido pela altura em metros ao quadrado.
   const bmi = data.weight / (data.height ** 2);
+  // find retorna a primeira faixa cujo limite é maior que o IMC calculado.
   const range = ranges.find((item) => bmi < item.max);
 
+  // As variáveis CSS permitem trocar a cor do cartão sem criar uma classe para cada faixa.
   document.documentElement.style.setProperty("--result", range.color);
   document.documentElement.style.setProperty("--result-soft", range.soft);
   resultElements.greeting.textContent = `Tudo certo, ${data.name}! Seu IMC é`;
@@ -111,6 +120,7 @@ function showResult(data) {
 
   idleState.hidden = true;
   resultCard.hidden = false;
+  // Espera o cartão aparecer antes de mover o marcador, permitindo que a transição seja animada.
   requestAnimationFrame(() => { resultElements.marker.style.left = `${markerPosition(bmi)}%`; });
 
   if (window.innerWidth < 851) {
@@ -119,6 +129,7 @@ function showResult(data) {
 }
 
 form.addEventListener("submit", (event) => {
+  // Impede o recarregamento padrão do formulário para exibir o resultado na mesma página.
   event.preventDefault();
   const data = validate();
   if (data) showResult(data);
@@ -134,6 +145,7 @@ clearButton.addEventListener("click", () => {
 });
 
 Object.entries(fields).forEach(([key, input]) => {
+  // Assim que o usuário corrige um campo marcado, removemos seu aviso visual.
   input.addEventListener("input", () => {
     if (input.closest(".field").classList.contains("invalid")) setError(key, "");
   });
