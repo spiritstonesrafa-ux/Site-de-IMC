@@ -19,6 +19,11 @@ const assets = JSON.stringify({
 });
 
 const worker = `const assets = ${assets};
+const securityHeaders = {
+  "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'",
+  "referrer-policy": "no-referrer",
+  "x-content-type-options": "nosniff"
+};
 
 export default {
   async fetch(request) {
@@ -28,17 +33,15 @@ export default {
     if (!asset) {
       return new Response("Página não encontrada", {
         status: 404,
-        headers: { "content-type": "text/plain; charset=utf-8" }
+        headers: { "content-type": "text/plain; charset=utf-8", ...securityHeaders }
       });
     }
 
     return new Response(asset.body, {
       headers: {
         "content-type": asset.type,
-        "cache-control": url.pathname === "/" || url.pathname === "/index.html"
-          ? "no-cache"
-          : "public, max-age=31536000, immutable",
-        "x-content-type-options": "nosniff"
+        "cache-control": "no-cache",
+        ...securityHeaders
       }
     });
   }
