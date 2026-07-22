@@ -223,12 +223,24 @@ function initializeApp() {
 
     idleState.hidden = true;
     resultCard.hidden = false;
+    resultCard.focus({ preventScroll: true });
+    if (window.matchMedia("(max-width: 850px)").matches) {
+      requestAnimationFrame(() => resultCard.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
   }
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const data = validateForm();
-    if (data) showResult(data);
+    updateAgeDependentFields();
+    try {
+      const data = validateForm();
+      if (data) showResult(data);
+    } catch (error) {
+      console.error("Falha ao calcular o resultado", error);
+      formAlert.textContent = "Não foi possível calcular o resultado. Revise os dados e tente novamente.";
+      formAlert.classList.add("show");
+      formAlert.focus();
+    }
   });
 
   clearButton.addEventListener("click", () => {
@@ -242,7 +254,10 @@ function initializeApp() {
     fields.name.focus();
   });
 
-  [fields.birthDate, fields.assessmentDate].forEach((input) => input.addEventListener("change", updateAgeDependentFields));
+  [fields.birthDate, fields.assessmentDate].forEach((input) => {
+    input.addEventListener("input", updateAgeDependentFields);
+    input.addEventListener("change", updateAgeDependentFields);
+  });
   Object.entries(fields).forEach(([fieldName, input]) => {
     input.addEventListener("input", () => {
       if (input.getAttribute("aria-invalid") !== "true") return;

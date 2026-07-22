@@ -81,7 +81,7 @@
             <label class="check-card"><input id="premature" name="premature" type="checkbox"><span><strong>Nascimento prematuro</strong> Pode exigir idade corrigida antes dos 2 anos.</span></label>
           </div>
 
-          <div class="form-alert" id="form-alert" role="alert" aria-live="polite"></div>
+          <div class="form-alert" id="form-alert" role="alert" aria-live="polite" tabindex="-1"></div>
           <div class="actions">
             <button class="primary-btn" type="submit">Calcular resultado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
             <button class="secondary-btn" id="clear-btn" type="button">Limpar</button>
@@ -98,7 +98,7 @@
           <div class="privacy-note">Nenhum dado pessoal é armazenado ou enviado</div>
         </div>
 
-        <div class="result-card" id="result-card" role="status" aria-live="polite" aria-atomic="true" hidden>
+        <div class="result-card" id="result-card" role="status" aria-live="polite" aria-atomic="true" tabindex="-1" hidden>
           <p class="sr-only" id="result-summary"></p>
           <div class="result-topline"><span class="result-label">RESULTADO DE TRIAGEM</span><span class="status-chip"><span></span><span id="chip-text"></span></span></div>
           <p class="result-greeting" id="result-greeting"></p>
