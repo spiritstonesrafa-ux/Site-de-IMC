@@ -6,7 +6,7 @@ import {
   formatAge,
   getAgeGroup,
   parseIsoDate
-} from "./who-growth.js";
+} from "./who-growth.js?v=7";
 
 export const LIMITS = Object.freeze({
   weightMin: 0.3,

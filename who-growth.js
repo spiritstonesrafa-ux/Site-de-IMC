@@ -1,6 +1,6 @@
 "use strict";
 
-import { WHO_BMI_LMS } from "./growth-data.js";
+import { WHO_BMI_LMS } from "./growth-data.js?v=7";
 
 export const PEDIATRIC_MONTHS_MAX = 239;
 export const WHO_2007_MONTHS_MAX = 228;

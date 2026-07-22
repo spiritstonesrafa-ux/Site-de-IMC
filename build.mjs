@@ -49,7 +49,7 @@ export default {
     return new Response(asset.body, {
       headers: {
         "content-type": asset.type,
-        "cache-control": "no-cache",
+        "cache-control": "no-store, max-age=0",
         ...securityHeaders
       }
     });
