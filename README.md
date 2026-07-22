@@ -2,6 +2,33 @@
 
 Aplicação estática de triagem nutricional que calcula o IMC no navegador e seleciona a referência conforme a idade exata em meses completos.
 
+**Versão online:** [calculadora-imc-saude.spiritstonesrafa.chatgpt.site](https://calculadora-imc-saude.spiritstonesrafa.chatgpt.site)
+
+## Funcionalidades
+
+- cálculo de IMC para crianças, adolescentes, adultos e idosos;
+- classificação infantil e adolescente por sexo e idade exata, usando escore-z;
+- referências OMS 2006, OMS 2007 e pontos de corte do SISVAN;
+- validação dos campos com mensagens claras para correção;
+- resultado detalhado e adaptável a celulares e computadores;
+- funcionamento local, sem transmitir ou armazenar dados pessoais.
+
+## Como executar
+
+O projeto usa apenas HTML, CSS e JavaScript, sem dependências externas. Como os arquivos JavaScript usam módulos, execute-o por um servidor HTTP local. Por exemplo:
+
+```sh
+npx serve .
+```
+
+Depois, abra o endereço informado no terminal. Para gerar a versão pronta para publicação:
+
+```sh
+npm run build
+```
+
+Os arquivos finais serão criados na pasta `dist/`.
+
 ## Referências e regras
 
 - **0 a 60 meses:** WHO Child Growth Standards, IMC-para-idade, **OMS 2006**.
@@ -42,6 +69,18 @@ npm run build
 ```
 
 Os testes cobrem transições etárias, limites adultos e de idosos, tabelas distintas por sexo, parâmetros de 228 meses para 19 anos incompletos, escores-z nos limites e casos documentados pela OMS.
+
+Atualmente, a suíte contém **20 testes automatizados**.
+
+## Estrutura principal
+
+- `index.html`: formulário e apresentação dos resultados;
+- `style.css`: aparência e adaptação para diferentes telas;
+- `script.js`: validação, interação e cálculo principal;
+- `growth-data.js`: parâmetros LMS oficiais da OMS;
+- `who-growth.js`: cálculo de escore-z e classificações por idade;
+- `test.mjs`: testes automatizados;
+- `build.mjs`: geração da pasta de publicação.
 
 ## Aviso
 

@@ -1,2 +1,6 @@
 dist/
 work/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
