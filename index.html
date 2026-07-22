@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Calcule seu Índice de Massa Corporal de forma rápida, simples e visual.">
-  <title>Calculadora de IMC</title>
+  <meta name="description" content="Triagem de IMC por idade com referências OMS e SISVAN.">
+  <title>Calculadora de IMC por idade</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,164 +15,130 @@
     <header class="hero reveal">
       <span class="eyebrow"><span class="eyebrow-dot"></span> Saúde em perspectiva</span>
       <h1>Calculadora de <span>IMC</span></h1>
-      <p>O Índice de Massa Corporal relaciona peso e altura para oferecer uma referência simples sobre sua faixa de peso em adultos.</p>
+      <p>Triagem nutricional por faixa etária com curvas oficiais da OMS para menores de 20 anos e pontos de corte do SISVAN para adultos e idosos.</p>
     </header>
 
-    <section class="workspace reveal" aria-label="Calculadora de IMC">
+    <section class="workspace reveal" aria-label="Calculadora de IMC por idade">
       <article class="form-panel">
         <div class="section-heading">
-          <div>
-            <span class="step-label">PASSO 01</span>
-            <h2>Conte um pouco sobre você</h2>
-          </div>
-          <div class="heading-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
-          </div>
+          <div><span class="step-label">PASSO 01</span><h2>Informe os dados da avaliação</h2></div>
+          <div class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg></div>
         </div>
 
         <form id="bmi-form" novalidate autocomplete="off">
-          <p class="adult-notice" id="adult-notice">Esta calculadora e sua classificação de IMC são destinadas somente a adultos de 20 a 120 anos.</p>
+          <p class="adult-notice">Para menores de 20 anos, o resultado considera idade exata e sexo de referência da curva de crescimento da OMS. Para idosos, são usados pontos de corte específicos do SISVAN.</p>
+
           <div class="field full-field">
-            <label for="name">Seu nome</label>
-            <div class="input-wrap">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
-              <input id="name" name="name" type="text" autocomplete="off" placeholder="Como podemos chamar você?" maxlength="60" aria-describedby="name-error" aria-errormessage="name-error" aria-invalid="false" required>
-            </div>
+            <label for="name">Nome <span class="optional">opcional</span></label>
+            <div class="input-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg><input id="name" name="name" type="text" maxlength="60" placeholder="Como podemos chamar você?"></div>
             <small class="error" id="name-error" aria-live="polite"></small>
           </div>
 
           <div class="fields-grid">
             <div class="field">
-              <label for="age">Idade</label>
-              <div class="input-wrap has-unit">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 2v3M16 2v3M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg>
-                <input id="age" name="age" type="number" inputmode="numeric" placeholder="28" min="20" max="120" step="1" aria-describedby="age-error adult-notice" aria-errormessage="age-error" aria-invalid="false" required>
-                <span>anos</span>
-              </div>
-              <small class="error" id="age-error" aria-live="polite"></small>
+              <label for="birthDate">Data de nascimento</label>
+              <div class="input-wrap"><input id="birthDate" name="birthDate" type="date" aria-describedby="birthDate-error" aria-errormessage="birthDate-error" aria-invalid="false" required></div>
+              <small class="error" id="birthDate-error" aria-live="polite"></small>
             </div>
-
             <div class="field">
-              <label for="weight">Peso</label>
-              <div class="input-wrap has-unit">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21h14l2-14H3l2 14ZM9 7a3 3 0 0 1 6 0M12 7v3"/></svg>
-                <input id="weight" name="weight" type="text" inputmode="decimal" placeholder="70,5" aria-describedby="weight-error" aria-errormessage="weight-error" aria-invalid="false" required>
-                <span>kg</span>
-              </div>
-              <small class="error" id="weight-error" aria-live="polite"></small>
+              <label for="assessmentDate">Data da avaliação</label>
+              <div class="input-wrap"><input id="assessmentDate" name="assessmentDate" type="date" aria-describedby="assessmentDate-error" aria-errormessage="assessmentDate-error" aria-invalid="false" required></div>
+              <small class="error" id="assessmentDate-error" aria-live="polite"></small>
             </div>
           </div>
 
-          <div class="field">
-            <div class="label-row">
-              <label for="height">Altura</label>
-              <span class="hint">Metros ou centímetros</span>
+          <div id="pediatric-fields">
+            <div class="field">
+              <label for="sex">Sexo de referência da curva OMS</label>
+              <div class="input-wrap select-wrap"><select id="sex" name="sex" aria-describedby="sex-help sex-error" aria-errormessage="sex-error" aria-invalid="false"><option value="">Selecione</option><option value="female">Feminino</option><option value="male">Masculino</option></select></div>
+              <small class="field-help" id="sex-help">Usado somente para selecionar a curva pediátrica oficial da OMS.</small>
+              <small class="error" id="sex-error" aria-live="polite"></small>
             </div>
-            <div class="input-wrap">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10v18H7V3ZM7 7h4M7 11h3M7 15h4M7 19h3"/></svg>
-              <input id="height" name="height" type="text" inputmode="decimal" placeholder="Ex.: 1,75 ou 175" aria-describedby="height-hint height-error" aria-errormessage="height-error" aria-invalid="false" required>
+            <div class="field">
+              <label for="measurement">Como a altura/comprimento foi medido?</label>
+              <div class="input-wrap select-wrap"><select id="measurement" name="measurement" aria-describedby="measurement-help measurement-error" aria-errormessage="measurement-error" aria-invalid="false"><option value="">Selecione</option><option value="lying">Deitada (comprimento)</option><option value="standing">Em pé (altura)</option></select></div>
+              <small class="field-help" id="measurement-help">Para 0–5 anos, a conversão de 0,7 cm recomendada pela OMS é aplicada quando necessária.</small>
+              <small class="error" id="measurement-error" aria-live="polite"></small>
             </div>
-            <small class="field-help" id="height-hint">Aceitamos de 0,50 a 2,80 m (50 a 280 cm).</small>
-            <small class="error" id="height-error" aria-live="polite"></small>
+          </div>
+
+          <div class="fields-grid">
+            <div class="field">
+              <label for="weight">Peso</label>
+              <div class="input-wrap has-unit"><input id="weight" name="weight" type="text" inputmode="decimal" placeholder="70,5" aria-describedby="weight-error" aria-errormessage="weight-error" aria-invalid="false" required><span>kg</span></div>
+              <small class="error" id="weight-error" aria-live="polite"></small>
+            </div>
+            <div class="field">
+              <label for="height">Altura ou comprimento</label>
+              <div class="input-wrap"><input id="height" name="height" type="text" inputmode="decimal" placeholder="1,75 ou 175" aria-describedby="height-help height-error" aria-errormessage="height-error" aria-invalid="false" required></div>
+              <small class="field-help" id="height-help">Aceita metros ou centímetros, com vírgula ou ponto.</small>
+              <small class="error" id="height-error" aria-live="polite"></small>
+            </div>
+          </div>
+
+          <div class="check-grid">
+            <label class="check-card"><input id="pregnant" name="pregnant" type="checkbox"><span><strong>Gestação</strong> A classificação comum de IMC não será aplicada.</span></label>
+            <label class="check-card"><input id="premature" name="premature" type="checkbox"><span><strong>Nascimento prematuro</strong> Pode exigir idade corrigida antes dos 2 anos.</span></label>
           </div>
 
           <div class="form-alert" id="form-alert" role="alert" aria-live="polite"></div>
-
           <div class="actions">
-            <button class="primary-btn" type="submit">
-              Calcular meu IMC
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <button class="secondary-btn" id="clear-btn" type="button">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v5M14 11v5"/></svg>
-              Limpar
-            </button>
+            <button class="primary-btn" type="submit">Calcular resultado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+            <button class="secondary-btn" id="clear-btn" type="button">Limpar</button>
           </div>
         </form>
       </article>
 
-      <aside class="insight-panel" id="insight-panel">
+      <aside class="insight-panel" aria-label="Resultado da calculadora de IMC">
         <div class="idle-state" id="idle-state">
-          <div class="orbital-graphic" aria-hidden="true">
-            <span class="orbit orbit-one"></span>
-            <span class="orbit orbit-two"></span>
-            <span class="heart-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
-            </span>
-          </div>
+          <div class="orbital-graphic" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="heart-icon"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg></span></div>
           <span class="step-label">PASSO 02</span>
           <h2>Seu resultado aparece aqui</h2>
-          <p>Preencha os dados ao lado para descobrir sua faixa de IMC.</p>
-          <div class="privacy-note">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5V10Z"/></svg>
-            Seus dados são processados somente neste navegador; não são armazenados nem enviados
-          </div>
+          <p>Os cálculos são feitos somente neste navegador.</p>
+          <div class="privacy-note">Nenhum dado pessoal é armazenado ou enviado</div>
         </div>
 
         <div class="result-card" id="result-card" role="status" aria-live="polite" aria-atomic="true" hidden>
           <p class="sr-only" id="result-summary"></p>
-          <div class="result-topline">
-            <span class="result-label">SEU RESULTADO</span>
-            <span class="status-chip" id="status-chip"><span></span><span id="chip-text"></span></span>
-          </div>
+          <div class="result-topline"><span class="result-label">RESULTADO DE TRIAGEM</span><span class="status-chip"><span></span><span id="chip-text"></span></span></div>
           <p class="result-greeting" id="result-greeting"></p>
           <div class="bmi-value"><strong id="bmi-value">0,00</strong><span>IMC</span></div>
           <h2 id="result-classification"></h2>
           <p class="result-message" id="result-message"></p>
-
-          <div class="gauge-block">
-            <div class="gauge-labels"><span>Baixo</span><span>Normal</span><span>Sobrepeso</span><span>Obesidade</span></div>
-            <div class="gauge" id="gauge" aria-label="Indicador visual da faixa de IMC, sem resultado calculado">
-              <div class="gauge-segment low" aria-hidden="true"></div>
-              <div class="gauge-segment normal" aria-hidden="true"></div>
-              <div class="gauge-segment overweight" aria-hidden="true"></div>
-              <div class="gauge-segment obese" aria-hidden="true"></div>
-              <span class="gauge-marker" id="gauge-marker" aria-hidden="true"></span>
-            </div>
-            <div class="gauge-numbers"><span>16</span><span>18,5</span><span>25</span><span>30</span><span>40+</span></div>
-          </div>
-
-          <div class="result-meta">
-            <span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 2v3M16 2v3M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></svg><b id="meta-age"></b> anos</span>
-            <span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21h14l2-14H3l2 14ZM9 7a3 3 0 0 1 6 0"/></svg><b id="meta-weight"></b> kg</span>
-            <span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10v18H7V3Z"/></svg><b id="meta-height"></b> m</span>
-          </div>
+          <dl class="result-details">
+            <div><dt>Idade considerada</dt><dd id="result-age"></dd></div>
+            <div><dt>Escore-z IMC/idade</dt><dd id="result-z"></dd></div>
+            <div><dt>Referência utilizada</dt><dd id="result-reference"></dd></div>
+          </dl>
+          <div class="result-notice" id="result-notice" hidden></div>
         </div>
       </aside>
     </section>
 
     <section class="reference-card reveal" aria-labelledby="reference-title">
-      <div class="reference-copy">
-        <span class="eyebrow compact"><span class="eyebrow-dot"></span> Referência</span>
-        <h2 id="reference-title">Entenda as faixas do IMC</h2>
-        <p>Referência destinada a adultos de 20 a 120 anos. Use a tabela como orientação rápida: cada pessoa é única e outros fatores também importam.</p>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Faixa de IMC</th><th>Classificação</th><th>Indicador</th></tr></thead>
-          <tbody>
-            <tr><td>Menor que 18,5</td><td>Abaixo do peso</td><td><span class="table-dot low" aria-hidden="true"></span><span class="sr-only">Azul</span></td></tr>
-            <tr><td>18,5 a menos de 25</td><td>Peso normal</td><td><span class="table-dot normal" aria-hidden="true"></span><span class="sr-only">Verde</span></td></tr>
-            <tr><td>25 a menos de 30</td><td>Sobrepeso</td><td><span class="table-dot overweight" aria-hidden="true"></span><span class="sr-only">Amarelo</span></td></tr>
-            <tr><td>30 a menos de 35</td><td>Obesidade grau I</td><td><span class="table-dot obesity-one" aria-hidden="true"></span><span class="sr-only">Laranja</span></td></tr>
-            <tr><td>35 a menos de 40</td><td>Obesidade grau II</td><td><span class="table-dot obesity-two" aria-hidden="true"></span><span class="sr-only">Laranja escuro</span></td></tr>
-            <tr><td>40 ou mais</td><td>Obesidade grau III</td><td><span class="table-dot obesity-three" aria-hidden="true"></span><span class="sr-only">Vermelho</span></td></tr>
-          </tbody>
-        </table>
+      <div class="reference-copy"><span class="eyebrow compact"><span class="eyebrow-dot"></span> Referências por idade</span><h2 id="reference-title">A mesma fórmula, interpretações diferentes</h2><p>O IMC é calculado por peso ÷ altura². A classificação muda conforme idade e, na infância e adolescência, também conforme a curva de referência.</p></div>
+      <div class="age-reference-list">
+        <article><strong>0–60 meses</strong><span>IMC-para-idade e sexo — OMS 2006</span></article>
+        <article><strong>61 meses a menos de 20 anos</strong><span>IMC-para-idade e sexo — OMS 2007</span></article>
+        <article><strong>20–59 anos</strong><span>Pontos de corte de adultos — SISVAN</span></article>
+        <article><strong>60 anos ou mais</strong><span>Pontos de corte específicos de idosos — SISVAN</span></article>
       </div>
     </section>
 
-    <aside class="medical-note reveal">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 10v6M12 7h.01"/></svg>
-      <p><strong>Um lembrete importante</strong> Esta classificação é destinada somente a adultos de 20 a 120 anos. O IMC é apenas uma referência informativa, não considera todos os aspectos da saúde e não substitui uma avaliação com médico ou nutricionista.</p>
-    </aside>
+    <section class="sources-card reveal" aria-labelledby="sources-title">
+      <h2 id="sources-title">Fontes</h2>
+      <ul>
+        <li><a href="https://www.gov.br/saude/pt-br/composicao/saps/vigilancia-alimentar-e-nutricional/arquivos/orientacoes-para-a-coleta-e-analise-de-dados-antropometricos-em-servicos-de-saude" target="_blank" rel="noopener noreferrer">Ministério da Saúde — Orientações para coleta e análise de dados antropométricos/SISVAN</a></li>
+        <li><a href="https://www.who.int/tools/child-growth-standards/standards/p" target="_blank" rel="noopener noreferrer">OMS — Padrões de crescimento de 0 a 5 anos</a></li>
+        <li><a href="https://www.who.int/tools/growth-reference-data-for-5to19-years" target="_blank" rel="noopener noreferrer">OMS — Referência de crescimento de 5 a 19 anos</a></li>
+        <li><a href="https://tabnet.datasus.gov.br/cgi/SISVAN/CNV/notas_sisvan.html" target="_blank" rel="noopener noreferrer">Ministério da Saúde — Classificação de idosos</a></li>
+      </ul>
+    </section>
+
+    <aside class="medical-note reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 10v6M12 7h.01"/></svg><p><strong>Um lembrete importante:</strong> este é um resultado de triagem, não um diagnóstico. Gestação, prematuridade, condições clínicas e composição corporal exigem avaliação individual com profissional de saúde.</p></aside>
   </main>
 
-  <footer>
-    <p>Feito para ajudar você a cuidar de si <span>♥</span></p>
-    <small>© <span id="year"></span> Calculadora de IMC</small>
-  </footer>
-
+  <footer><p>Informação para apoiar conversas sobre saúde <span>♥</span></p><small>© <span id="year"></span> Calculadora de IMC</small></footer>
   <script type="module" src="script.js"></script>
 </body>
 </html>

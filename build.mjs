@@ -1,21 +1,30 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-await rm("dist", { recursive: true, force: true });
-await mkdir("dist/server", { recursive: true });
-await mkdir("dist/.openai", { recursive: true });
+const root = dirname(fileURLToPath(import.meta.url));
+const fromRoot = (path) => resolve(root, path);
 
-const [html, css, javascript, hosting] = await Promise.all([
-  readFile("index.html", "utf8"),
-  readFile("style.css", "utf8"),
-  readFile("script.js", "utf8"),
-  readFile(".openai/hosting.json", "utf8")
+await rm(fromRoot("dist"), { recursive: true, force: true });
+await mkdir(fromRoot("dist/server"), { recursive: true });
+await mkdir(fromRoot("dist/.openai"), { recursive: true });
+
+const [html, css, javascript, whoGrowth, growthData, hosting] = await Promise.all([
+  readFile(fromRoot("index.html"), "utf8"),
+  readFile(fromRoot("style.css"), "utf8"),
+  readFile(fromRoot("script.js"), "utf8"),
+  readFile(fromRoot("who-growth.js"), "utf8"),
+  readFile(fromRoot("growth-data.js"), "utf8"),
+  readFile(fromRoot(".openai/hosting.json"), "utf8")
 ]);
 
 const assets = JSON.stringify({
   "/": { body: html, type: "text/html; charset=utf-8" },
   "/index.html": { body: html, type: "text/html; charset=utf-8" },
   "/style.css": { body: css, type: "text/css; charset=utf-8" },
-  "/script.js": { body: javascript, type: "text/javascript; charset=utf-8" }
+  "/script.js": { body: javascript, type: "text/javascript; charset=utf-8" },
+  "/who-growth.js": { body: whoGrowth, type: "text/javascript; charset=utf-8" },
+  "/growth-data.js": { body: growthData, type: "text/javascript; charset=utf-8" }
 });
 
 const worker = `const assets = ${assets};
@@ -49,6 +58,6 @@ export default {
 `;
 
 await Promise.all([
-  writeFile("dist/server/index.js", worker),
-  writeFile("dist/.openai/hosting.json", hosting)
+  writeFile(fromRoot("dist/server/index.js"), worker),
+  writeFile(fromRoot("dist/.openai/hosting.json"), hosting)
 ]);
